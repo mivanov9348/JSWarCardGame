@@ -1,9 +1,12 @@
 'use strict';
+
 import { Card } from './card.js'; // Relative path to Card.js
+
+let cardId = 0;
 
 export class Deck {
   constructor() {
-    this.deck = [];
+    this.cards = [];
     this.populateDeck();
   }
 
@@ -27,9 +30,11 @@ export class Deck {
 
     for (let suit of suits) {
       for (let value of values) {
+        cardId++;
         let points = this.assignPoints(value);
         let imageUrl = `./cardsImg/${value}_of_${suit}.png`;
-        this.deck.push(new Card(suit, value, points, imageUrl));
+        let id = cardId;
+        this.cards.push(new Card(id, suit, value, points, false, imageUrl));
       }
     }
   }
@@ -50,18 +55,6 @@ export class Deck {
   }
 
   getDeck() {
-    return this.deck;
-  }
-
-  drawRandomCard() {
-    if (this.deck.length < 1) {
-      alert('The deck is empty!');
-      return;
-    } else {
-      const random = Math.floor(Math.random() * this.deck.length);
-      let randomCard = this.deck[random];
-      console.log(randomCard);
-      return randomCard;
-    }
+    return this.cards;
   }
 }
