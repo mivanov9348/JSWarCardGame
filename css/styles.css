@@ -1,34 +1,93 @@
 body {
   background-color: whitesmoke;
+  font-family: Arial, sans-serif;
 }
+
 .game-board {
-  margin: 100px 500px;
-  width: 500px;
+  margin: 50px auto;
+  width: 70%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: grey;
-  border: 4px solid black;
+  background-color: #dcdcdc;
+  border: 6px solid black;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.pc-section,
-.player-section {
-  width: 100%;
-  text-align: center;
-}
-
-.center-section {
+.playcards-section {
   width: 100%;
   text-align: center;
   margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: row;
+  max-width: 320px; /* 2 cards of 150px width + 20px total margin */
+  margin: 0 auto; /* Center the playcards-section */
+}
+
+.pc-section,
+.playcards-section,
+.player-section {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .pc-cards,
+.playcards-section,
 .player-cards {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: row;
 }
 
 img {
-  width: 100px;
-  height: 150px;
+  width: 150px;
+  height: 220px;
+  margin: 1px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pc-cardBack,
+.pc-cardFace {
+  border: 3px solid blue;
+}
+
+.player-cardBack,
+.player-cardFace {
+  border: 3px solid red;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #2e2e2e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+input[type='text'] {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #2e2e2e;
+  border-radius: 5px;
+  margin-right: 10px;
 }

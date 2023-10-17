@@ -5,32 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
+
   <body>
+    <button class="reset">Reset</button>
+
     <div class="game-board">
-      <button class="reset">Reset</button>
       <div class="pc-section">
         <h2 class="pcName"></h2>
+        <p class="pcCardsCount"></p>
         <div class="pc-cards">
           <img class="pc-cardBack" src="./cardsImg/CardBack.png" />
-          <img class="pc-cardFace" src="./cardsImg/10_of_diamonds.png" />
-          <p class="pc-cardPoints"></p>
-          <hr />
         </div>
       </div>
+
+      <div class="playcards-section">
+        <img class="pc-cardFace" src="./cardsImg/10_of_diamonds.png" />
+        <img class="player-cardFace" src="./cardsImg/10_of_clubs.png" />
+      </div>
+
       <div class="resultDiv">
         <input type="text" class="playerNameInput" placeholder="Player Name" />
         <button class="startButton">Start Game</button>
       </div>
+
       <div class="player-section">
         <div class="player-cards">
-          <hr />
           <img class="player-cardBack" src="./cardsImg/CardBack.png" />
-          <img class="player-cardFace" src="./cardsImg/10_of_clubs.png" />
-          <p class="player-cardPoints"></p>
         </div>
+        <p class="playerCardsCount"></p>
+
         <h2 class="playerName"></h2>
       </div>
     </div>
+
+    <script type="module" src="./js/main.js"></script>
   </body>
-  <script type="module" src="./js/main.js"></script>
 </html>

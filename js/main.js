@@ -3,6 +3,7 @@
 //Import
 import { Deck } from './deck.js';
 import { Player } from './player.js';
+import { Game } from './game.js';
 
 //Get elements
 const playerCardBack = document.querySelector('.player-cardBack');
@@ -15,10 +16,14 @@ const pcName = document.querySelector('.pcName');
 const playerName = document.querySelector('.playerName');
 const playerNameInput = document.querySelector('.playerNameInput');
 const resetBtn = document.querySelector('.reset');
+const pcCardsCountP = document.querySelector('.pcCardsCount');
+const playerCardsCountP = document.querySelector('.playerCardsCount');
 
 //State
 hideCards();
-
+let game;
+let player;
+let pcPlayer;
 //function
 
 startBtn.addEventListener('click', function (e) {
@@ -32,22 +37,57 @@ startBtn.addEventListener('click', function (e) {
 
     //GenerateDeck
     let deck = new Deck();
-    let sorted = deck.cards.sort((a, b) => a.id - b.id);
-    console.log(sorted);
 
-    //Generate Player
-    let player = new Player(playerNameInput.value);
+    //Generate Players
+    player = new Player(playerNameInput.value);
     player.DealingHand(deck);
-    let pcPlayer = new Player('PC');
-    pcPlayer.DealingHand(deck);
     playerName.textContent = player.name;
-    pcName.textContent = pcPlayer.name;
+    playerCardsCountP.textContent = player.getCardsCount();
 
-    //GenerateDeck
+    pcPlayer = new Player('PC');
+    pcPlayer.DealingHand(deck);
+    pcName.textContent = pcPlayer.name;
+    pcCardsCountP.textContent = pcPlayer.getCardsCount();
+
+    //generateGame
+    game = new Game();
+    game.startGame(player, pcPlayer);
   } else {
     alert('You must add a name!');
   }
 });
+
+playerCardBack.addEventListener('click', function (e) {
+  e.preventDefault();
+  let playerCard;
+  let pcCard;
+
+  playerCard = player.drawACard();
+  playerCardFace.style.display = 'inline';
+  playerCardFace.src = `/cardsImg/${playerCard.value}_of_${playerCard.suit}.png`;
+
+  playerCardBack.style.pointerEvents = 'none';
+
+  setTimeout(() => {
+    pcCard = pcPlayer.drawACard();
+    pcCardFace.style.display = 'inline';
+    pcCardFace.src = `/cardsImg/${pcCard.value}_of_${pcCard.suit}.png`;
+    defineRoundWinner(playerCard, pcCard);
+  }, 1000);
+});
+
+const defineRoundWinner = function (playerCard, pcCard) {
+  game.defineWinnerHand(playerCard, pcCard);
+  playerCardBack.style.pointerEvents = 'auto';
+
+  setTimeout(() => {
+    playerCardFace.src = `/cardsImg/red_joker.png`;
+    pcCardFace.src = `/cardsImg/black_joker.png`;
+  }, 1000);
+
+  playerCardsCountP.textContent = player.getCardsCount();
+  pcCardsCountP.textContent = pcPlayer.getCardsCount();
+};
 
 resetBtn.addEventListener('click', function (e) {
   e.preventDefault();
@@ -64,4 +104,5 @@ function hideCards() {
   playerCardFace.style.display = 'none';
   pcCardBack.style.display = 'none';
   pcCardFace.style.display = 'none';
+  resetBtn.style.display = 'none';
 }

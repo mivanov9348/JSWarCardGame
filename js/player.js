@@ -7,12 +7,10 @@ export class Player {
     this.cards = [];
   }
 
-  startTurn() {
-    this.isTurn = true;
-  }
-
-  endTurn() {
-    this.isTurn = false;
+  addCardsToHand(winningCards) {
+    winningCards.forEach(card => {
+      this.cards.push(card);
+    });
   }
 
   DealingHand(deck) {
@@ -20,13 +18,23 @@ export class Player {
     let cardsInHand = cards.length / 2;
 
     for (let i = 0; i < cardsInHand; i++) {
-      let drawedCard = cards[Math.floor(Math.random() * cards.length)];
-      cards.find(card => card.id == drawedCard.id).dealed = true;
-      this.cards.push(drawedCard);
+      let dealedCard = cards[Math.floor(Math.random() * cards.length)];
+      cards.find(card => card.id == dealedCard.id).dealed = true;
+      this.cards.push(dealedCard);
     }
   }
 
   drawACard() {
-    return this.cards[0];
+    let drawedCard = this.cards[0];
+    this.cards.splice(this.cards[0], 1);
+    return drawedCard;
+  }
+
+  getDeck() {
+    return this.cards;
+  }
+
+  getCardsCount() {
+    return this.cards.length;
   }
 }
