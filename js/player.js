@@ -8,9 +8,7 @@ export class Player {
   }
 
   addCardsToHand(winningCards) {
-    winningCards.forEach(card => {
-      this.cards.push(card);
-    });
+    winningCards.forEach(x => this.cards.push(x));
   }
 
   DealingHand(deck) {
@@ -28,6 +26,11 @@ export class Player {
     let drawedCard = this.cards[0];
     this.cards.splice(this.cards[0], 1);
     return drawedCard;
+  }
+
+  drawThreeCards() {
+    let threeCards = this.cards.splice(this.cards[0], 3);
+    return threeCards;
   }
 
   getDeck() {

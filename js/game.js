@@ -2,6 +2,7 @@ import { Player } from './player.js';
 
 export class Game {
   constructor() {
+    this.roundCards = [];
     this.players = [];
   }
 
@@ -20,17 +21,50 @@ export class Game {
     return this.players;
   }
 
-  defineWinnerHand(playerCard, pcCard) {
-    let roundCards = [playerCard, pcCard];
-
-    if (playerCard.points >= pcCard.points) {
-      this.players[0].addCardsToHand(roundCards);
+  defineWinnerHand() {
+    if (this.roundCards[0].points > this.roundCards[1].points) {
+      this.handlePlayerWin(this.roundCards);
+    } else if (this.roundCards[1].points > this.roundCards[0].points) {
+      this.handlePcWin(this.roundCards);
     } else {
-      this.players[1].addCardsToHand(roundCards);
+      this.handleDraw();
     }
   }
 
-  defineWinner() {}
+  handlePlayerWin() {
+    this.players[0].addCardsToHand(this.roundCards);
+    this.roundCards = [];
+  }
+
+  handlePcWin() {
+    this.players[1].addCardsToHand(this.roundCards);
+    this.roundCards = [];
+  }
+
+  handleDraw() {
+    console.log('its draw');
+
+    let playerThreeCards = this.players[0].drawThreeCards();
+    this.roundCards.push(...playerThreeCards);
+    let pcThreeCards = this.players[1].drawThreeCards();
+    this.roundCards.push(...pcThreeCards);
+    console.log(this.roundCards);
+
+    console.log(playerThreeCards[2]);
+    console.log(pcThreeCards[2]);
+
+    if (playerThreeCards[2].points > pcThreeCards[2].points) {
+      console.log(`player win ${this.roundCards.length} cards`);
+
+      this.handlePlayerWin();
+    } else if (pcThreeCards[2].points > playerThreeCards[2].points) {
+      console.log(`pc win ${this.roundCards.length} cards`);
+
+      this.handlePcWin();
+    } else {
+      this.handleDraw();
+    }
+  }
 
   changeTurn() {
     if (this.players[0].isTurn === true) {

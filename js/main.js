@@ -24,16 +24,22 @@ hideCards();
 let game;
 let player;
 let pcPlayer;
+let roundCards = [];
 //function
 
 startBtn.addEventListener('click', function (e) {
   e.preventDefault();
   if (playerNameInput.value) {
     //buttons
+    resetBtn.style.display = 'inline';
+
     playerCardBack.style.display = 'inline';
     pcCardBack.style.display = 'inline';
     playerNameInput.style.display = 'none';
     startBtn.style.display = 'none';
+
+    playerCardFace.style.display = 'inline';
+    pcCardFace.style.display = 'inline';
 
     //GenerateDeck
     let deck = new Deck();
@@ -77,7 +83,10 @@ playerCardBack.addEventListener('click', function (e) {
 });
 
 const defineRoundWinner = function (playerCard, pcCard) {
-  game.defineWinnerHand(playerCard, pcCard);
+  game.roundCards.push(playerCard);
+  game.roundCards.push(pcCard);
+
+  game.defineWinnerHand();
   playerCardBack.style.pointerEvents = 'auto';
 
   setTimeout(() => {
@@ -97,6 +106,8 @@ resetBtn.addEventListener('click', function (e) {
   startBtn.style.display = 'inline';
   playerName.textContent = '';
   pcName.textContent = '';
+  pcCardsCountP.textContent = '';
+  playerCardsCountP.textContent = '';
 });
 
 function hideCards() {
