@@ -29,6 +29,29 @@ body {
   max-width: 320px; /* 2 cards of 150px width + 20px total margin */
   margin: 0 auto; /* Center the playcards-section */
 }
+.pcSide-card-stack {
+  display: flex;
+  height: 220px;
+  margin: 1px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 3px solid blue; /* You can adjust the border color */
+}
+
+.playerSide-card-stack {
+  display: flex;
+  height: 220px;
+  margin: 1px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 3px solid red; /* You can adjust the border color */
+}
+
+.left-side-card {
+  float: left;
+}
+
+.right-side-card {
+  float: right;
+}
 
 .pc-section,
 .playcards-section,

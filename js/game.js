@@ -1,4 +1,5 @@
 import { Player } from './player.js';
+import { GameUI } from './gameUI.js';
 
 export class Game {
   constructor() {
@@ -14,12 +15,14 @@ export class Game {
   }
 
   getGame() {
-    return this.Game;
+    return this;
   }
 
   getPlayers() {
     return this.players;
   }
+
+  defineWinner() {}
 
   defineWinnerHand() {
     if (this.roundCards[0].points > this.roundCards[1].points) {
@@ -45,24 +48,54 @@ export class Game {
     console.log('its draw');
 
     let playerThreeCards = this.players[0].drawThreeCards();
+    this.simulateDrawThreeCards(true, playerThreeCards);
+
     this.roundCards.push(...playerThreeCards);
     let pcThreeCards = this.players[1].drawThreeCards();
-    this.roundCards.push(...pcThreeCards);
-    console.log(this.roundCards);
+    this.simulateDrawThreeCards(false, pcThreeCards);
 
-    console.log(playerThreeCards[2]);
-    console.log(pcThreeCards[2]);
+    this.roundCards.push(...pcThreeCards);
 
     if (playerThreeCards[2].points > pcThreeCards[2].points) {
-      console.log(`player win ${this.roundCards.length} cards`);
-
       this.handlePlayerWin();
     } else if (pcThreeCards[2].points > playerThreeCards[2].points) {
-      console.log(`pc win ${this.roundCards.length} cards`);
-
       this.handlePcWin();
     } else {
       this.handleDraw();
+    }
+  }
+
+  simulateDrawThreeCards(playerTurn, cards) {
+    if (playerTurn) {
+      const playerThreeCardsSide = document.querySelector(
+        '.playerSide-card-stack'
+      );
+      playerThreeCardsSide.style.display = 'inline';
+
+      cards.forEach((card, index) => {
+        console.log(`tim: ${index + 1}`);
+        setTimeout(() => {
+          playerThreeCardsSide.children[
+            index
+          ].src = `/cardsImg/${card.value}_of_${card.suit}.png`;
+          if (playerThreeCardsSide.children[2])
+            playerThreeCardsSide.children[2].style.border = '3px solid black';
+        }, 500 * (index + 5));
+      });
+    } else {
+      const pcThreeCardsSide = document.querySelector('.pcSide-card-stack');
+      pcThreeCardsSide.style.display = 'inline';
+
+      cards.forEach((card, index) => {
+        console.log(`tim: ${index + 1}`);
+        setTimeout(() => {
+          pcThreeCardsSide.children[
+            index
+          ].src = `/cardsImg/${card.value}_of_${card.suit}.png`;
+          if (pcThreeCardsSide.children[2])
+            pcThreeCardsSide.children[2].style.border = '3px solid black';
+        }, 500 * (index + 10));
+      });
     }
   }
 

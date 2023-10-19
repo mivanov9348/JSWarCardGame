@@ -18,6 +18,8 @@ const playerNameInput = document.querySelector('.playerNameInput');
 const resetBtn = document.querySelector('.reset');
 const pcCardsCountP = document.querySelector('.pcCardsCount');
 const playerCardsCountP = document.querySelector('.playerCardsCount');
+const playerThreeCardsSide = document.querySelector('.playerSide-card-stack');
+const pcThreeCardsSide = document.querySelector('.pcSide-card-stack');
 
 //State
 hideCards();
@@ -68,6 +70,9 @@ playerCardBack.addEventListener('click', function (e) {
   let playerCard;
   let pcCard;
 
+  playerThreeCardsSide.style.display = 'none';
+  pcThreeCardsSide.style.display = 'none';
+
   playerCard = player.drawACard();
   playerCardFace.style.display = 'inline';
   playerCardFace.src = `/cardsImg/${playerCard.value}_of_${playerCard.suit}.png`;
@@ -89,10 +94,12 @@ const defineRoundWinner = function (playerCard, pcCard) {
   game.defineWinnerHand();
   playerCardBack.style.pointerEvents = 'auto';
 
-  setTimeout(() => {
-    playerCardFace.src = `/cardsImg/red_joker.png`;
-    pcCardFace.src = `/cardsImg/black_joker.png`;
-  }, 1000);
+  if (playerCard.points !== pcCard.points) {
+    setTimeout(() => {
+      playerCardFace.src = `/cardsImg/red_joker.png`;
+      pcCardFace.src = `/cardsImg/black_joker.png`;
+    }, 1000);
+  }
 
   playerCardsCountP.textContent = player.getCardsCount();
   pcCardsCountP.textContent = pcPlayer.getCardsCount();
@@ -111,6 +118,8 @@ resetBtn.addEventListener('click', function (e) {
 });
 
 function hideCards() {
+  playerThreeCardsSide.style.display = 'none';
+  pcThreeCardsSide.style.display = 'none';
   playerCardBack.style.display = 'none';
   playerCardFace.style.display = 'none';
   pcCardBack.style.display = 'none';
