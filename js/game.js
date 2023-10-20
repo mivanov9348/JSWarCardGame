@@ -1,5 +1,4 @@
-import { Player } from './player.js';
-import { GameUI } from './gameUI.js';
+import { Player } from "./player.js";
 
 export class Game {
   constructor() {
@@ -14,6 +13,10 @@ export class Game {
     this.players.push(pc);
   }
 
+  endGame(winner) {
+    alert(`${winner} is winner!`);
+  }
+
   getGame() {
     return this;
   }
@@ -22,13 +25,21 @@ export class Game {
     return this.players;
   }
 
-  defineWinner() {}
+  defineWinner() {
+    if (this.players[0].getCardsCount() < 1) {
+      this.endGame(this.players[1].name);
+    } else if (this.players[1].getCardsCount() < 1) {
+      this.endGame(this.players[0].name);
+    }
+  }
 
   defineWinnerHand() {
     if (this.roundCards[0].points > this.roundCards[1].points) {
       this.handlePlayerWin(this.roundCards);
+      this.defineWinner();
     } else if (this.roundCards[1].points > this.roundCards[0].points) {
       this.handlePcWin(this.roundCards);
+      this.defineWinner();
     } else {
       this.handleDraw();
     }
@@ -45,8 +56,6 @@ export class Game {
   }
 
   handleDraw() {
-    console.log('its draw');
-
     let playerThreeCards = this.players[0].drawThreeCards();
     this.simulateDrawThreeCards(true, playerThreeCards);
 
@@ -58,8 +67,10 @@ export class Game {
 
     if (playerThreeCards[2].points > pcThreeCards[2].points) {
       this.handlePlayerWin();
+      this.defineWinner();
     } else if (pcThreeCards[2].points > playerThreeCards[2].points) {
       this.handlePcWin();
+      this.defineWinner();
     } else {
       this.handleDraw();
     }
@@ -68,32 +79,30 @@ export class Game {
   simulateDrawThreeCards(playerTurn, cards) {
     if (playerTurn) {
       const playerThreeCardsSide = document.querySelector(
-        '.playerSide-card-stack'
+        ".playerSide-card-stack"
       );
-      playerThreeCardsSide.style.display = 'inline';
+      playerThreeCardsSide.style.display = "inline";
 
       cards.forEach((card, index) => {
-        console.log(`tim: ${index + 1}`);
         setTimeout(() => {
           playerThreeCardsSide.children[
             index
           ].src = `/cardsImg/${card.value}_of_${card.suit}.png`;
           if (playerThreeCardsSide.children[2])
-            playerThreeCardsSide.children[2].style.border = '3px solid black';
+            playerThreeCardsSide.children[2].style.border = "3px solid black";
         }, 500 * (index + 5));
       });
     } else {
-      const pcThreeCardsSide = document.querySelector('.pcSide-card-stack');
-      pcThreeCardsSide.style.display = 'inline';
+      const pcThreeCardsSide = document.querySelector(".pcSide-card-stack");
+      pcThreeCardsSide.style.display = "inline";
 
       cards.forEach((card, index) => {
-        console.log(`tim: ${index + 1}`);
         setTimeout(() => {
           pcThreeCardsSide.children[
             index
           ].src = `/cardsImg/${card.value}_of_${card.suit}.png`;
           if (pcThreeCardsSide.children[2])
-            pcThreeCardsSide.children[2].style.border = '3px solid black';
+            pcThreeCardsSide.children[2].style.border = "3px solid black";
         }, 500 * (index + 10));
       });
     }
